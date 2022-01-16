@@ -1,0 +1,6 @@
+,ModelDescription,TestAccuracy,TestLoss
+0,"Fine-tuned AlexNet, Normalized, 150 Epochs, No augmentation applied",0.104347825050354,190.11604176396904
+1,"Fine-tuned ResNet50 on 50 epochs, with input images of shape (100, 100, 3)",0.365217387676239,5.512276649475098
+2,"Fine-tuned VGG16 on 20 epochs, with input images of shape (100, 100, 3)",0.626086950302124,1.0710984354433806
+3,"ResNet50 on 16 epochs, with input images of shape (64, 64, 3), for ALL data",0.08993157744407654,11.383548402832869
+0,"Fine-tuned VGG16 on 16 epochs, with input images of shape (64, 64, 3) for all dataset",0.13880743086338043,4.502567322955686
