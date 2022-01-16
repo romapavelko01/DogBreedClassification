@@ -26,7 +26,7 @@ More specifically, there is a dataset (~750MB) of  20.6k images (of format .jpg)
 
 
 
-### Overview of ideas in related works
+### Overview of Ideas in Related Works
 
 Most of the methods which I found on web use CNN’s [although Standford also considered K-Nearest Neighbors, 
 SVM and Logistic Regression models, but which reaches seemingly low accuracy - ~48%, which one may consider inferior to random guess,
@@ -74,7 +74,7 @@ what these dogs look like:
 ![10 Dogs, most probable to see](https://user-images.githubusercontent.com/61096766/149646038-ce8c954a-4434-4c8f-9869-d82bd8f1692e.png)
 
 
-### My investigation
+## My Investigation
 
 What my work mainly revolves around is Transfer Learning, that is I loaded pre-trained models, which were built for 
 some specific image classification problem, like, for example, classifying flowers or animals in general, and I use part of 
@@ -87,5 +87,84 @@ out of which I decided to work with the following list: ResNet50, VGG16, AlexNet
 I have also tried implementing my own model, but got stuck with non-convergence, however, got pretty interesting results and 
 gained much insight along the way. 
 
+It important to mention that the fine-tuning that I did and which I uploaded to github was mainly replacing the last `Dense` layer 
+of the original pre-trained model, with the `Dense` layer with output shape equals to the number of classes in my case.
+Also it involved replacing the `InputLayer` with one, specified for my input images.
 
-The models which I chose for fine-tuning 
+I have mainly considered a pair of possible input shapes: (64, 64, 3) and (100, 100, 3), as I anyway needed to scale my data down to constant shape,
+although the above shapes are quite small resolution-wise, meaning that some data could have been missed.
+
+As an optimizer, I chose the RMSProp with default parameter of `learning_rate`, set to 0.001, and `rho`, set to 0.9.
+
+
+### Top 10 most frequent classes
+I decided to start off with the smaller dataset of images which i used for training models;
+This dataset is smaller in terms of having far less breeds, keeping only 10 most frequent breeds.
+The train data was split into 90/10 as train/test, which I assumed to be a good idea, given a relatively low number of data points.
+The **main metric** that I used for assessing the performance of models is accuracy, for all models I specified loss function as `'categorical_crossentropy'`
+
+#### Fine-tuned AlexNet :
+
+This model turned out to be the worst of all I have implemented. Comparing its loss history plot, which was built on 150 epochs
+
+![AlexNet train loss](https://user-images.githubusercontent.com/61096766/149646047-bc689d45-bb84-4b2f-9b0a-f5cd84a43e4d.png)
+
+and the train accuracies history plot: 
+
+![AlexNet train accuracy](https://user-images.githubusercontent.com/61096766/149646048-b36b278a-6c06-4c9a-9bc5-70b722eeb5e4.png)
+
+
+to the history plots of
+
+#### Fine-tuned VGG16:
+
+for loss:
+
+![VGG16](https://user-images.githubusercontent.com/61096766/149646033-67cec24c-a4dd-4c42-870c-b9cc3e601125.png)
+
+And for accuracy:
+
+![VGG16 accuracy](https://user-images.githubusercontent.com/61096766/149646036-533951c9-e4f3-4ed3-9ff2-124aca772377.png)
+
+VGG16 looks much more smoother and superior to AlexNet, and smoothness of lines might also be related to the 
+test accuracies, as, although both models *overfitted*, at least VGG16 did much better, with train-test accuracy margin of just 0.3,
+while AlexNet produced 0.7 accuracies during training, but only 0.1 accuracy for the test data (test data - 0.1 of the split of the top 10
+dataset). Therefore, I decided not to move the baseline model (AlexNet) to extensive original dataset with 120 classes.
+
+### For entire dataset
+
+Here I decided to cut the epochs a little bit, in hopes to prevent overfitting, but it did not help much.
+Let's now compare the other 2 models, being *ResNet50* and *VGG16*
+
+#### Fine-tuned ResNet50
+
+Loss history plot:
+
+![ResNet50 for all dataset history of loss values](https://user-images.githubusercontent.com/61096766/149647139-2dd7b579-ef36-4107-ac22-90d170cb694b.png)
+
+Accuracy history plot:
+
+![ResNet50 for all dataset history of accuracy values](https://user-images.githubusercontent.com/61096766/149647138-cd9baae9-a7c6-4074-91b7-1d973bb9700e.png)
+
+#### Fine-tuned VGG 16
+
+![VGG16 for all dataset history of loss values](https://user-images.githubusercontent.com/61096766/149647146-3e5feb96-ddca-42dc-99a5-ec3663dba3e9.png)
+
+![VGG16_for_all_dataset history of accuracy values](https://user-images.githubusercontent.com/61096766/149647145-cd420ba9-474c-45c5-89dd-806cc7022a24.png)
+
+
+
+
+
+## Conclusions and Further Research
+
+For this project I had a bit of a time constraint, as models with millions of parameters take much more time to train, than what I
+expected, and another slightly unpleasant insight has been the fact that I could not use GPU's on my computer.
+
+However, the only thing I sincerely regret not trying is the data augmentation technique as I have seen multiple related works, 
+containing this method, although not having much proven success, as it was used for training only, and the model later generated
+predictions as a competition submission.
+
+Another insight that I would like to write about is the overfitting, the fine-tuned models were just great on the training stage, with non-decreasing
+and non-increasing accuracy and loss trends respectively.
+
