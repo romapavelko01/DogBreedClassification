@@ -152,7 +152,8 @@ Accuracy history plot:
 
 ![VGG16_for_all_dataset history of accuracy values](https://user-images.githubusercontent.com/61096766/149647145-cd420ba9-474c-45c5-89dd-806cc7022a24.png)
 
-
+Again, overfitting came to be very significant, as model accuracies computed over test fraction of the train set are 
+~0.14 and ~0.09 for VGG16 and ResNet50 respectively
 
 
 
@@ -167,4 +168,7 @@ predictions as a competition submission.
 
 Another insight that I would like to write about is the overfitting, the fine-tuned models were just great on the training stage, with non-decreasing
 and non-increasing accuracy and loss trends respectively.
+
+However, the the most important thing all these overfitting-based results stress on is the amount of data available needed. The fine-tuned models
+were originally trained on millions of samples, so no wonder they are considered the gold standard, even having 15M+ parameters.
 
