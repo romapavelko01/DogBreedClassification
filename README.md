@@ -162,9 +162,15 @@ Again, overfitting came to be very significant, as model accuracies computed ove
 For this project I had a bit of a time constraint, as models with millions of parameters take much more time to train, than what I
 expected, and another slightly unpleasant insight has been the fact that I could not use GPU's on my computer.
 
+Without the time limits, I could go for setting higher resolution for input images, which would probably influence the quality of feature extraction,
+and also move inputs closer to the desired pre-trained models' inputs, for example, original VGG16 requires 224x224 3-channel image 
+(tensor) as an input; and, by hot having to retrain the new input layer, specified for 64x64 images, the model could probaly improve its
+performance if it had to update only the last layer of parameters.
+
 However, the only thing I sincerely regret not trying is the data augmentation technique as I have seen multiple related works, 
 containing this method, although not having much proven success, as it was used for training only, and the model later generated
 predictions as a competition submission.
+
 
 Another insight that I would like to write about is the overfitting, the fine-tuned models were just great on the training stage, with non-decreasing
 and non-increasing accuracy and loss trends respectively.
